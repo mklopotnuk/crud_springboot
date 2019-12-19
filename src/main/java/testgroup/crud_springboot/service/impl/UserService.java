@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import testgroup.crud_springboot.config.AppProperties;
+import testgroup.crud_springboot.config.BarcodeProperties;
 import testgroup.crud_springboot.dao.impl.UserDAO;
 import testgroup.crud_springboot.model.Barcode;
 import testgroup.crud_springboot.model.User;
@@ -19,13 +19,13 @@ public class UserService implements testgroup.crud_springboot.service.UserServic
 
     private UserDAO userDAO;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private AppProperties appProperties;
+    private BarcodeProperties BarcodeProperties;
 
     @Autowired
-    public UserService(UserDAO userDAO, BCryptPasswordEncoder bCryptPasswordEncoder, AppProperties appProperties) {
+    public UserService(UserDAO userDAO, BCryptPasswordEncoder bCryptPasswordEncoder, BarcodeProperties appProperties) {
         this.userDAO = userDAO;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.appProperties = appProperties;
+        this.BarcodeProperties = appProperties;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class UserService implements testgroup.crud_springboot.service.UserServic
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Long userId = userDAO.add(user);
         String formattedId = String.format("S%06d", userId);
-        String url = appProperties.getUrlBarcodeGenerator() + formattedId + "." + appProperties.getBarcodeFileFormat() + "?resolution=" + appProperties.getBarcodeResolution();
+        String url = BarcodeProperties.getUrlBarcodeGenerator() + formattedId + "." + BarcodeProperties.getBarcodeFileFormat() + "?resolution=" + BarcodeProperties.getBarcodeResolution();
         byte[] imageBytes = restTemplate.getForObject(url, byte[].class);
         barcode.setBarcodeId(formattedId);
         String string = Base64.getEncoder().encodeToString(imageBytes);
