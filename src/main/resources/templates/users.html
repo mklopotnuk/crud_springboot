@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body>
+<h2>Users</h2>
+<table border="2">
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th>roles</th>
+        <th>users actions</th>
+    </tr>
+
+<!--            Правильно ли здесь сделано что внутри тега <td> пусто? -->
+    <th:block th:each="user : ${usersList}">
+        <tr>
+            <td th:text="${user.getId()}"> </td>
+            <td th:text="${user.getName()}"> </td>
+            <td th:text="${user.getPassword()}"> </td>
+            <td>
+
+            </td>
+            <td>
+                <a th:href="@{'/admin/edit/' + ${user.getId()}}">edit</a>
+                <a th:href="@{'/user/view/' + ${user.getId()}}">profile</a>
+                <a th:href="@{'/admin/delete/' + ${user.getId()}}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+
+
+</table>
+
+<h2>Actions</h2>
+
+<form action="#" th:action="@{/add}" method="post" th:object="${user}" >
+<tr>
+        <td>Create new user</td>
+        <td>
+            <label> Name:
+                <input type="text" th:field="${user.name}" />
+            </label>
+        </td>
+        <td>
+             <label>Password:
+                <input type="text" th:field="${user.password}" />
+            </label>
+        </td>
+        <td>Role <select name="role">
+            <option value="1">USER</option>
+            <option value="2">ADMIN</option>
+        </select>
+        </td>
+        <td>
+            <button type="submit">Submit</button>
+        </td>
+    </tr>
+</form>
+
+<a href="/logout"> Logout </a>
+
+</body>
+</html>

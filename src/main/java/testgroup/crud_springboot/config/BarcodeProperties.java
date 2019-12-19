@@ -3,10 +3,12 @@ package testgroup.crud_springboot.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-public class AppProperties {
+@PropertySource(value = "classpath:barcode.properties")
+public class BarcodeProperties {
 
     @Value("${urlBarcodeGenerator}")
     private String urlBarcodeGenerator;
