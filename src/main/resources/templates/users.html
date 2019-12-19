@@ -16,12 +16,14 @@
     </tr>
 
 <!--            Правильно ли здесь сделано что внутри тега <td> пусто? -->
+<!--    td где проставляется роль юзера, пожходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.-->
     <th:block th:each="user : ${usersList}">
         <tr>
             <td th:text="${user.getId()}"> </td>
             <td th:text="${user.getName()}"> </td>
             <td th:text="${user.getPassword()}"> </td>
-            <td>
+            <td th:each="role : ${user.roles}" th:text="${role.getName()}">
+
 
             </td>
             <td>
