@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show user</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td><b>User:</b></td><td th:text="${user.name}"></td>
+    </tr>
+    <tr>
+        <td><b>Password:</b></td><td th:text="${user.password}"></td>
+    </tr>
+    <tr>
+        <td><b>Barcode:</b></td><td><img th:src="@{'data:image/jpeg;base64,'+ ${barcode.barcodeImage}}"></td>
+    </tr>
+    <tr>
+        <td><b>BarcodeId:</b></td><td th:text="${barcode.barcodeId}"> </td>
+    </tr>
+
+</table>
+
+<a href="/logout"> Logout </a>
+
+</body>
+</html>

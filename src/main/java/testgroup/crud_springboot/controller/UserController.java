@@ -117,9 +117,16 @@ public class UserController {
     @GetMapping(value = "/user/view/{id}")
     public String showUser(@PathVariable("id") Long id, Model model) {
         //Тут есть косяк, если ввести не существующий id пользователя, покажется страничка с пустыми строками
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long currentId = userService.findByUserName(userDetails.getUsername()).getId();
-        if(currentId == id){
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentId = currentUser.getId();
+        Set<Role> currentRoles = currentUser.getRoles();
+// Вот этот кусок кода нормальный? отсюда
+        final boolean[] isAdmin = {false};
+        currentRoles.forEach((e) -> {if(e.getName().equals("ADMIN")){
+            isAdmin[0] =!isAdmin[0];
+        }});
+//        до сюда,  мне он просто не нравится.
+        if(currentId.equals(id) || isAdmin[0]){
             User user = userService.getById(id);
             model.addAttribute("user", user);
             try {
