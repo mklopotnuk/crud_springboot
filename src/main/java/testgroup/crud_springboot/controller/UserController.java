@@ -133,7 +133,7 @@ public class UserController {
                 Barcode barcode = barcodeService.getById(user.getBarcode().getId());
                 model.addAttribute("barcode", barcode);
             } catch (NullPointerException e) {
-                return "redirect:/";
+                return "redirect:/admin/userslist";
             }
             return "showUser";}
         else{
