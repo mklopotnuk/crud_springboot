@@ -80,8 +80,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/add")
-    public String addPage() {
-        return "editPage";
+    public String addPage(Model model) {
+        model.addAttribute("user", new User());
+        return "add";
     }
 
     @GetMapping(value = "/login")
