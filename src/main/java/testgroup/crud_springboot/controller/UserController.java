@@ -60,7 +60,7 @@ public class UserController {
         Long barcodeId = user.getBarcode().getId();
         model.addAttribute("user", user);
         model.addAttribute("barcodeId", barcodeId);
-        return "editPage";
+        return "edit";
     }
 
     @PostMapping(value = "/edit")
