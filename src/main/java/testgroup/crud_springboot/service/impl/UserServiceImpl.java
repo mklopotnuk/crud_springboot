@@ -6,23 +6,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import testgroup.crud_springboot.config.BarcodeProperties;
-import testgroup.crud_springboot.dao.impl.UserDAO;
+import testgroup.crud_springboot.dao.UserDAO;
 import testgroup.crud_springboot.model.Barcode;
 import testgroup.crud_springboot.model.User;
+import testgroup.crud_springboot.service.UserService;
 
 import java.util.Base64;
 import java.util.List;
 
 @Service
 @Transactional
-public class UserService implements testgroup.crud_springboot.service.UserService {
+public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private BarcodeProperties BarcodeProperties;
 
     @Autowired
-    public UserService(UserDAO userDAO, BCryptPasswordEncoder bCryptPasswordEncoder, BarcodeProperties appProperties) {
+    public UserServiceImpl(UserDAO userDAO, BCryptPasswordEncoder bCryptPasswordEncoder, BarcodeProperties appProperties) {
         this.userDAO = userDAO;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.BarcodeProperties = appProperties;

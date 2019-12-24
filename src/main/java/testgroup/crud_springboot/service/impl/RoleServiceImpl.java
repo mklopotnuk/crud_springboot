@@ -6,15 +6,16 @@ import testgroup.crud_springboot.model.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import testgroup.crud_springboot.dao.RoleDAO;
+import testgroup.crud_springboot.service.RoleService;
 
 import java.util.List;
 
 @Service
-public class RoleService implements  testgroup.crud_springboot.service.RoleService{
+public class RoleServiceImpl implements RoleService {
       private RoleDAO roleDAO;
 
     @Autowired
-    public RoleService(RoleDAO roleDAO) {
+    public RoleServiceImpl(RoleDAO roleDAO) {
         this.roleDAO = roleDAO;
     }
 

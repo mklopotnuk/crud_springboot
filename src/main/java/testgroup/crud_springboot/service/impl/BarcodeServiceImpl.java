@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import testgroup.crud_springboot.dao.BarcodeDAO;
 import testgroup.crud_springboot.model.Barcode;
+import testgroup.crud_springboot.service.BarcodeService;
 
 import java.util.List;
 
 @Service
-public class BarcodeService implements testgroup.crud_springboot.service.BarcodeService {
+public class BarcodeServiceImpl implements BarcodeService {
      private BarcodeDAO barcodeDAO;
 
     @Autowired
-    public BarcodeService(BarcodeDAO barcodeDAO) {
+    public BarcodeServiceImpl(BarcodeDAO barcodeDAO) {
         this.barcodeDAO = barcodeDAO;
     }
 

@@ -3,6 +3,7 @@ package testgroup.crud_springboot.dao.impl;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import testgroup.crud_springboot.dao.BarcodeDAO;
 import testgroup.crud_springboot.model.Barcode;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class BarcodeDAO implements testgroup.crud_springboot.dao.BarcodeDAO {
+public class BarcodeDAOImpl implements BarcodeDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
