@@ -3,20 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" type="text/css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
     <title>Войти</title>
 </head>
 <body>
+<div class="text-center logout alert alert-primary " th:text="${message}" th:if="${param.logout}"></div>
 
+<div class="login-form">
+    <form action="/login" method="post">
+<!--        Не пойму где описывается класс text-center  -->
+        <h2 class="text-center">Войти</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" required="required" name="name">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" required="required" name="password">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
 
-<div class="logout" th:text="${message}" th:if="${param.logout}"></div>
-
-<form action="/login" method="post">
-    <label>Name
-        <input type="text" name="name"></label><br>
-    <label>Password
-        <input type="password" name="password">
-    </label><br>
-    <input type="submit" value="Login">
-</form>
+    </form>
+</div>
 </body>
 </html>
