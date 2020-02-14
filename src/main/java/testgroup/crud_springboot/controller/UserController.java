@@ -44,14 +44,14 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping(value = "/admin/userslist")
+    @GetMapping(value = "/admin")
     public String allUsers(Model model) {
         List<User> users = userService.allUsers();
         List<Role> roles = roleService.getRoles();
         model.addAttribute("user", new User());
         model.addAttribute("usersList", users);
         model.addAttribute("roles", roles);
-        return "users";
+        return "admin";
     }
 
     @GetMapping(value = "/admin/edit/{id}")
@@ -76,7 +76,7 @@ public class UserController {
         Set<Role> roleSet = Collections.singleton(roleService.getRoleById(Long.valueOf(request.getParameter("role"))));
         user.setRoles(roleSet);
         userService.edit(user);
-        return "redirect:/admin/userslist";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/add")
@@ -105,14 +105,14 @@ public class UserController {
         }
         user.setRoles(roles);
         userService.add(user);
-        return "redirect:/admin/userslist";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/admin/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         User user = userService.getById(id);
         userService.delete(user);
-        return "redirect:/admin/userslist";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/user/view/{id}")
@@ -134,7 +134,7 @@ public class UserController {
                 Barcode barcode = barcodeService.getById(user.getBarcode().getId());
                 model.addAttribute("barcode", barcode);
             } catch (NullPointerException e) {
-                return "redirect:/admin/userslist";
+                return "redirect:/admin";
             }
             return "showUser";}
         else{
