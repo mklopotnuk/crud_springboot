@@ -5,11 +5,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import testgroup.crud_springboot.config.BarcodeProperties;
+import testgroup.crud_springboot.security.config.BarcodeProperties;
 import testgroup.crud_springboot.dao.UserDAO;
 import testgroup.crud_springboot.model.Barcode;
 import testgroup.crud_springboot.model.User;
 import testgroup.crud_springboot.service.UserService;
+
 
 import java.util.Base64;
 import java.util.List;
@@ -68,5 +69,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserName(String name) {
         return userDAO.findByUserName(name);
+    }
+
+    @Override
+    public boolean isUserExist(String name) {
+        return userDAO.findByUserName(name) == null;
     }
 }

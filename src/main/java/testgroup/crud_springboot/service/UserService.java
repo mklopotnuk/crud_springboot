@@ -18,4 +18,5 @@ public interface UserService {
 
     User findByUserName(String name);
 
+    boolean isUserExist(String name);
 }
