@@ -1,4 +1,4 @@
-package testgroup.crud_springboot.config;
+package testgroup.crud_springboot.security.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
