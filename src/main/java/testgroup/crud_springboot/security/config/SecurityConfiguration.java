@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import testgroup.crud_springboot.security.handlers.CustomAuthFailureHandler;
 import testgroup.crud_springboot.security.handlers.CustomAuthSuccessHandler;
 import testgroup.crud_springboot.service.impl.UserDetailsServiceImpl;
 
@@ -14,11 +14,13 @@ import testgroup.crud_springboot.service.impl.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CustomAuthSuccessHandler customAuthSuccessHandler;
+    private CustomAuthFailureHandler customAuthFailureHandler;
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(CustomAuthSuccessHandler customAuthSuccessHandler, UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfiguration(CustomAuthSuccessHandler customAuthSuccessHandler, CustomAuthFailureHandler customAuthFailureHandler, UserDetailsServiceImpl userDetailsService) {
         this.customAuthSuccessHandler = customAuthSuccessHandler;
+        this.customAuthFailureHandler = customAuthFailureHandler;
         this.userDetailsService = userDetailsService;
     }
 
@@ -40,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("name")
                 .passwordParameter("password")
                 .successHandler(customAuthSuccessHandler)
+                .failureHandler(customAuthFailureHandler)
                 .and()
                 .logout()
                 .and().csrf().disable();
