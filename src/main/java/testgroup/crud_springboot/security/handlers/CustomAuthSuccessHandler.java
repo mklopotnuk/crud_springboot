@@ -14,11 +14,11 @@ import java.io.IOException;
 import java.util.Set;
 
 @Component
-public class MySuccessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     private UserDAO userDAO;
 
     @Autowired
-    public MySuccessHandler(UserDAO userDAO) {
+    public CustomAuthSuccessHandler(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
