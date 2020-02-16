@@ -7,17 +7,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import testgroup.crud_springboot.security.handlers.MySuccessHandler;
+import testgroup.crud_springboot.security.handlers.CustomAuthSuccessHandler;
+import testgroup.crud_springboot.service.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private MySuccessHandler mySuccessHandler;
-    private UserDetailsService userDetailsService;
+    private CustomAuthSuccessHandler customAuthSuccessHandler;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(MySuccessHandler mySuccessHandler, UserDetailsService userDetailsService) {
-        this.mySuccessHandler = mySuccessHandler;
+    public SecurityConfiguration(CustomAuthSuccessHandler customAuthSuccessHandler, UserDetailsServiceImpl userDetailsService) {
+        this.customAuthSuccessHandler = customAuthSuccessHandler;
         this.userDetailsService = userDetailsService;
     }
 
@@ -38,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").loginProcessingUrl("/login").permitAll()
                 .usernameParameter("name")
                 .passwordParameter("password")
-                .successHandler(mySuccessHandler)
+                .successHandler(customAuthSuccessHandler)
                 .and()
                 .logout()
                 .and().csrf().disable();
