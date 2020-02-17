@@ -45,186 +45,139 @@
     </div>
     <div class="row">
         <div class="col-2 col-sm-2 col-md-2 col-lg-2 left-menu">
-            <ul class="nav flex-column">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Admin</a>
+            <ul class="nav flex-column nav-tabs nav-pills" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-controls="admin-page" role="tab" data-toggle="tab"
+                       href="#admin-page">Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">User</a>
+                    <a class="nav-link" aria-controls="user-page" role="tab" data-toggle="tab"
+                       href="#user-page">User</a>
                 </li>
             </ul>
         </div>
-
-
         <div class="col-10 col-sm-10 col-md-10 col-lg-10">
-            <h1>Admin panel</h1>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#allUsers">Users table</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#newUser">New user</a>
-                </li>
-            </ul>
             <div class="tab-content">
-                <div class="tab-pane show active" id="allUsers">
-                    <h4>All Users</h4>
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th>id</th>
-                            <th>username</th>
-                            <th>password</th>
-                            <th>roles</th>
-                            <th>users actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!--    td где проставляется роль юзера, подходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.-->
-                        <th:block th:each="user : ${usersList}">
-                            <tr>
-                                <td th:text="${user.getId()}"></td>
-                                <td th:text="${user.getName()}"></td>
-                                <td th:text="${user.getPassword()}"></td>
-                                <td th:each="role : ${user.roles}" th:text="${role.getName()}">
+                <div class="tab-pane show active" id="admin-page" role="tabpanel">
+                    <div class="col-10 col-sm-10 col-md-10 col-lg-10">
+                        <h1>Admin panel</h1>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#allUsers" aria-controls="user-panel"
+                                   role="tab">Users table</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" aria-controls="add-user-panel" role="tab"
+                                   href="#newUser">New user</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="allUsers" role="tabpanel">
+                                <h4>All Users</h4>
+                                <table class="table table-striped">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>id</th>
+                                        <th>username</th>
+                                        <th>password</th>
+                                        <th>roles</th>
+                                        <th>users actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--    td где проставляется роль юзера, подходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.-->
+                                    <th:block th:each="user : ${usersList}">
+                                        <tr>
+                                            <td th:text="${user.getId()}"></td>
+                                            <td th:text="${user.getName()}"></td>
+                                            <td th:text="${user.getPassword()}"></td>
+                                            <td th:each="role : ${user.roles}" th:text="${role.getName()}">
 
 
-                                </td>
-                                <td>
-                                    <!--                                    text-white???-->
-                                    <a th:id="editButton+${user.getId()}"
-                                       class="btn btn-primary btn-sm text-white">Edit</a>
-                                    <a th:id="showProfile+${user.getId()}"
-                                       class="btn btn-primary btn-sm text-white">Profile</a>
-                                    <!--                                    <a th:id="showProfile+${user.getId()}" class="btn btn-primary btn-sm" th:href="@{'/user/view/' + ${user.getId()}}">Profile</a>-->
-                                    <a class="btn btn-primary btn-sm"
-                                       th:href="@{'/admin/delete/' + ${user.getId()}}">Delete</a>
-                                </td>
-                                <script type="text/javascript">
-                                    //Зачем в Ванином примере еще document.ready делается?
-                                    // jQuery(document).ready(function () {
-                                    $("#editButton" + [[${user.getId()}]]).click(function () {
-                                        let message = "[[${user.getId()}]]";
-                                        alert("Hello " + message);
-                                    })
+                                            </td>
+                                            <td>
+                                                <!--                                    text-white???-->
+                                                <a th:id="editButton+${user.getId()}"
+                                                   class="btn btn-primary btn-sm text-white">Edit</a>
+                                                <a th:id="showProfile+${user.getId()}"
+                                                   class="btn btn-primary btn-sm text-white">Profile</a>
+                                                <!--                                    <a th:id="showProfile+${user.getId()}" class="btn btn-primary btn-sm" th:href="@{'/user/view/' + ${user.getId()}}">Profile</a>-->
+                                                <a class="btn btn-primary btn-sm"
+                                                   th:href="@{'/admin/delete/' + ${user.getId()}}">Delete</a>
+                                            </td>
+                                            <script type="text/javascript">
+                                                //Зачем в Ванином примере еще document.ready делается?
+                                                // jQuery(document).ready(function () {
+                                                $("#editButton" + [[${user.getId()}]]).click(function () {
+                                                    let message = "[[${user.getId()}]]";
+                                                    alert("Hello " + message);
+                                                })
 
-                                    $("#showProfile" + [[${user.getId()}]]).click(function () {
-                                        let message = "[[${user.getId()}]]";
-                                        alert("Hello " + message);
-                                    })
+                                                $("#showProfile" + [[${user.getId()}]]).click(function () {
+                                                    let message = "[[${user.getId()}]]";
+                                                    alert("Hello " + message);
+                                                })
 
-                                    // }
-                                    // )
+                                                // }
+                                                // )
 
-                                </script>
-                            </tr>
-                        </th:block>
-                        </tbody>
+                                            </script>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
 
-                    </table>
+                                </table>
 
-                </div>
-                <div class="tab-pane" id="newUser">
-                    <h4>Add new users</h4>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-10 col-xs-10">
-                                <form action="#" th:action="@{/add}" method="post" th:object="${user}">
-                                    <div class="form-group text-center edit-form">
-                                        <label for="username-input-add">Name</label>
-                                        <input id="username-input-add" class="form-control" placeholder="User name"
-                                               type="text" th:field="*{name}" required/>
-                                        <label for="password-input-add">Password</label>
-                                        <input id="password-input-add" class="form-control" placeholder="Password"
-                                               type="password" th:field="*{password}" required>
-                                        <label for="role-input-add">Role</label>
-                                        <select id="role-input-add" class="form-control" name="role">
-                                            <option value="1">USER</option>
-                                            <option value="2">ADMIN</option>
-                                        </select>
-                                        <button type="submit"
-                                                class="btn btn-success add-user-button btn-lg">
-                                            Add new user
-                                        </button>
+                            </div>
+                            <div class="tab-pane" id="newUser">
+                                <h4>Add new users</h4>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-10 col-xs-10">
+                                            <form action="#" th:action="@{/add}" method="post" th:object="${user}">
+                                                <div class="form-group text-center edit-form">
+                                                    <label for="username-input-add">Name</label>
+                                                    <input id="username-input-add" class="form-control"
+                                                           placeholder="User name"
+                                                           type="text" th:field="*{name}" required/>
+                                                    <label for="password-input-add">Password</label>
+                                                    <input id="password-input-add" class="form-control"
+                                                           placeholder="Password"
+                                                           type="password" th:field="*{password}" required>
+                                                    <label for="role-input-add">Role</label>
+                                                    <select id="role-input-add" class="form-control" name="role">
+                                                        <option value="1">USER</option>
+                                                        <option value="2">ADMIN</option>
+                                                    </select>
+                                                    <button type="submit"
+                                                            class="btn btn-success add-user-button btn-lg">
+                                                        Add new user
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane show " id="user-page" role="tabpanel">
+                      <div class="col-10 col-sm-10 col-md-10 col-lg-10">
+                        <h1>User panel</h1>
+                          Hello <span th:text="${currentUser.getName()}"></span>
+                </div>
+
             </div>
+
+
         </div>
+
+
     </div>
 
 </div>
-
-<!--            <div class="tab-content">-->
-<!--                <div class="tab-pane fade show active " id="usersTable">-->
-<!--                    All users-->
-<!--                </div>-->
-<!--                <div class="tab-pane fade" id="newUser">-->
-<!--                    New user-->
-<!--                </div>-->
-<!--            </div>-->
-
-
-<!--                    Users table-->
-<!--            <div class="card-body">-->
-<!--                <div class="card-title">All users</div>-->
-<!--                <table class="table table-striped">-->
-<!--                    <thead class="thead-dark">-->
-<!--                    <tr>-->
-<!--                        <th>id</th>-->
-<!--                        <th>username</th>-->
-<!--                        <th>password</th>-->
-<!--                        <th>roles</th>-->
-<!--                        <th>users actions</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    &lt;!&ndash;    td где проставляется роль юзера, подходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.&ndash;&gt;-->
-<!--                    <th:block th:each="user : ${usersList}">-->
-<!--                        <tr>-->
-<!--                            <td th:text="${user.getId()}"></td>-->
-<!--                            <td th:text="${user.getName()}"></td>-->
-<!--                            <td th:text="${user.getPassword()}"></td>-->
-<!--                            <td th:each="role : ${user.roles}" th:text="${role.getName()}">-->
-
-
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                &lt;!&ndash;                                    text-white???&ndash;&gt;-->
-<!--                                <a th:id="editButton+${user.getId()}"-->
-<!--                                   class="btn btn-primary btn-sm text-white">Edit</a>-->
-<!--                                <a th:id="showProfile+${user.getId()}"-->
-<!--                                   class="btn btn-primary btn-sm text-white">Profile</a>-->
-<!--                                &lt;!&ndash;                                    <a th:id="showProfile+${user.getId()}" class="btn btn-primary btn-sm" th:href="@{'/user/view/' + ${user.getId()}}">Profile</a>&ndash;&gt;-->
-<!--                                <a class="btn btn-primary btn-sm"-->
-<!--                                   th:href="@{'/admin/delete/' + ${user.getId()}}">Delete</a>-->
-<!--                            </td>-->
-<!--                            <script type="text/javascript">-->
-<!--                                //Зачем в Ванином примере еще document.ready делается?-->
-<!--                                // jQuery(document).ready(function () {-->
-<!--                                $("#editButton" + [[${user.getId()}]]).click(function () {-->
-<!--                                    let message = "[[${user.getId()}]]";-->
-<!--                                    alert("Hello " + message);-->
-<!--                                })-->
-
-<!--                                $("#showProfile" + [[${user.getId()}]]).click(function () {-->
-<!--                                    let message = "[[${user.getId()}]]";-->
-<!--                                    alert("Hello " + message);-->
-<!--                                })-->
-
-<!--                                // }-->
-<!--                                // )-->
-
-<!--                            </script>-->
-<!--                        </tr>-->
-<!--                    </th:block>-->
-<!--                    </tbody>-->
-
-<!--                </table>-->
-<!--            </div>-->
 
 
 <script src="/js/bootstrap.min.js"></script>
