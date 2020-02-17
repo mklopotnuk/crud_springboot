@@ -109,18 +109,14 @@
                                                 //Зачем в Ванином примере еще document.ready делается?
                                                 // jQuery(document).ready(function () {
                                                 $("#editButton" + [[${user.getId()}]]).click(function () {
-                                                    let message = "[[${user.getId()}]]";
-                                                    alert("Hello " + message);
+                                                    putValues("[[${user.getId()}]]", "[[${user.getName()}]]", "", "", "edit");
+                                                    $("#editUserForm").modal('show');
                                                 })
 
                                                 $("#showProfile" + [[${user.getId()}]]).click(function () {
-                                                    let message = "[[${user.getId()}]]";
-                                                    alert("Hello " + message);
+                                                    putValues("[[${user.getId()}]]", "[[${user.getName()}]]", "[[${user.getPassword()}]]", "[[${user.getBarcode()}]]", "info");
+                                                    $("#showUserForm").modal('show');
                                                 })
-
-                                                // }
-                                                // )
-
                                             </script>
                                         </tr>
                                     </th:block>
@@ -164,22 +160,104 @@
                 </div>
 
                 <div class="tab-pane show " id="user-page" role="tabpanel">
-                      <div class="col-10 col-sm-10 col-md-10 col-lg-10">
+                    <div class="col-10 col-sm-10 col-md-10 col-lg-10">
                         <h1>User panel</h1>
-                          Hello <span th:text="${currentUser.getName()}"></span>
+                        Hello <span th:text="${currentUser.getName()}"></span>
+                    </div>
+
                 </div>
+
 
             </div>
 
 
         </div>
 
+        <div class="modal fade" id="showUserForm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">User Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Id: <span id="id-info"></span></p>
+                        <p>Username: <span id="username-info"></span></p>
+                        <p>Password: <span id="password-info"></span></p>
+                        <p>Barcode:</p><img id="barcode-info" alt="barcode">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editUserForm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-form" action="#" th:action="@{/admin/edit}" method="post" th:object="${user}">
+                            <div class="form-group text-center edit-form">
+                                <label for="id-input-edit">ID</label>
+                                <input id="id-input-edit" class="form-control" disabled="disabled" type="text"
+                                       th:field="*{id}" required>
+                                <input type="hidden" id="id-input-edit-hidden" th:field="*{id}">
+
+                                <label for="username-input-edit">Name</label>
+                                <input id="username-input-edit" class="form-control"
+                                       placeholder="User name"
+                                       type="text" th:field="*{name}" required/>
+                                <label for="password-input-edit">Password</label>
+                                <input id="password-input-edit" class="form-control"
+                                       placeholder="Password"
+                                       type="password" th:field="*{password}" required>
+                                <label for="role-input-edit">Role</label>
+                                <select id="role-input-edit" class="form-control" name="role">
+                                    <option value="1">USER</option>
+                                    <option value="2">ADMIN</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="edit-submit" class="btn btn-primary">Edit User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
-
 </div>
 
+<script>
+    function putValues(id, name, password, barcode, windowtype) {
+        if (windowtype === "info") {
+            $("#id-info").text(id);
+            $("#username-info").text(name);
+            $("#password-info").text(password);
+            $("#barcode-info").attr("src", barcode);
+        }
+        if (windowtype === "edit") {
+            $('#id-input-edit').val(id);
+            $('#id-input-edit-hidden').val(id);
+            $('#username-input-edit').val(name);
+            $('#password-input-edit').val(password);
+        }
+    }
 
+    $(document).ready(function () {
+        $("#edit-submit").click(function () {
+            $("#edit-form").submit();
+        })
+    })
+
+</script>
 <script src="/js/bootstrap.min.js"></script>
 <!--<script src="/js/popper.min.js"></script>-->
 

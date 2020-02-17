@@ -64,7 +64,7 @@ public class UserController {
         return "edit";
     }
 
-    @PostMapping(value = "/edit")
+    @PostMapping(value = "/admin/edit")
     public String editUser(User user, HttpServletRequest request) {
         User currentUser = userService.getById(user.getId());
         user.setBarcode(currentUser.getBarcode());
