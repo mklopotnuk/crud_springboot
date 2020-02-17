@@ -48,6 +48,7 @@ public class UserController {
     public String allUsers(Model model) {
         List<User> users = userService.allUsers();
         List<Role> roles = roleService.getRoles();
+        model.addAttribute("currentUser", (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("user", new User());
         model.addAttribute("usersList", users);
         model.addAttribute("roles", roles);
