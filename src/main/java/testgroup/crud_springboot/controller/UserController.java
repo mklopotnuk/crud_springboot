@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Controller
+//@Controller
 public class UserController {
 
     private UserService userService;
