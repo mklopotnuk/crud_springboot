@@ -86,40 +86,15 @@
                                     </thead>
                                     <tbody>
                                     <!--    td где проставляется роль юзера, подходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.-->
-                                    <th:block th:each="user : ${usersList}">
                                         <tr>
-                                            <td th:text="${user.getId()}"></td>
-                                            <td th:text="${user.getName()}"></td>
-                                            <td th:text="${user.getPassword()}"></td>
-                                            <td th:each="role : ${user.roles}" th:text="${role.getName()}">
-
-
-                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
                                                 <!--                                    text-white???-->
-                                                <a th:id="editButton+${user.getId()}"
-                                                   class="btn btn-primary btn-sm text-white">Edit</a>
-                                                <a th:id="showProfile+${user.getId()}"
-                                                   class="btn btn-primary btn-sm text-white">Profile</a>
-                                                <!--                                    <a th:id="showProfile+${user.getId()}" class="btn btn-primary btn-sm" th:href="@{'/user/view/' + ${user.getId()}}">Profile</a>-->
-                                                <a class="btn btn-primary btn-sm"
-                                                   th:href="@{'/admin/delete/' + ${user.getId()}}">Delete</a>
                                             </td>
-                                            <script type="text/javascript">
-                                                //Зачем в Ванином примере еще document.ready делается?
-                                                // jQuery(document).ready(function () {
-                                                $("#editButton" + [[${user.getId()}]]).click(function () {
-                                                    putValues("[[${user.getId()}]]", "[[${user.getName()}]]", "", "", "edit");
-                                                    $("#editUserForm").modal('show');
-                                                })
-
-                                                $("#showProfile" + [[${user.getId()}]]).click(function () {
-                                                    putValues("[[${user.getId()}]]", "[[${user.getName()}]]", "[[${user.getPassword()}]]", "[[${user.getBarcode()}]]", "info");
-                                                    $("#showUserForm").modal('show');
-                                                })
-                                            </script>
                                         </tr>
-                                    </th:block>
                                     </tbody>
 
                                 </table>
@@ -130,16 +105,16 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-10 col-xs-10">
-                                            <form action="#" th:action="@{/add}" method="post" th:object="${user}">
+                                            <form action="#" th:action="@{/add}" method="post">
                                                 <div class="form-group text-center edit-form">
                                                     <label for="username-input-add">Name</label>
                                                     <input id="username-input-add" class="form-control"
                                                            placeholder="User name"
-                                                           type="text" th:field="*{name}" required/>
+                                                           type="text" required/>
                                                     <label for="password-input-add">Password</label>
                                                     <input id="password-input-add" class="form-control"
                                                            placeholder="Password"
-                                                           type="password" th:field="*{password}" required>
+                                                           type="password"  required>
                                                     <label for="role-input-add">Role</label>
                                                     <select id="role-input-add" class="form-control" name="role">
                                                         <option value="1">USER</option>
@@ -162,7 +137,7 @@
                 <div class="tab-pane show " id="user-page" role="tabpanel">
                     <div class="col-10 col-sm-10 col-md-10 col-lg-10">
                         <h1>User panel</h1>
-                        Hello <span th:text="${currentUser.getName()}"></span>
+                        Hello <span></span>
                     </div>
 
                 </div>
@@ -199,21 +174,21 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
-                        <form id="edit-form" action="#" th:action="@{/admin/edit}" method="post" th:object="${user}">
+                        <form id="edit-form" action="#" th:action="@{/admin/edit}" method="post">
                             <div class="form-group text-center edit-form">
                                 <label for="id-input-edit">ID</label>
                                 <input id="id-input-edit" class="form-control" disabled="disabled" type="text"
-                                       th:field="*{id}" required>
-                                <input type="hidden" id="id-input-edit-hidden" th:field="*{id}">
+                                        required>
+                                <input type="hidden" id="id-input-edit-hidden">
 
                                 <label for="username-input-edit">Name</label>
                                 <input id="username-input-edit" class="form-control"
                                        placeholder="User name"
-                                       type="text" th:field="*{name}" required/>
+                                       type="text" required/>
                                 <label for="password-input-edit">Password</label>
                                 <input id="password-input-edit" class="form-control"
                                        placeholder="Password"
-                                       type="password" th:field="*{password}" required>
+                                       type="password" required>
                                 <label for="role-input-edit">Role</label>
                                 <select id="role-input-edit" class="form-control" name="role">
                                     <option value="1">USER</option>

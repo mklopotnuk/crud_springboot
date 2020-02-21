@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-//@Controller
+@Controller
 public class UserController {
 
     private UserService userService;
@@ -45,13 +45,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/admin")
-    public String allUsers(Model model) {
-        List<User> users = userService.allUsers();
-        List<Role> roles = roleService.getRoles();
-        model.addAttribute("currentUser", (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        model.addAttribute("user", new User());
-        model.addAttribute("usersList", users);
-        model.addAttribute("roles", roles);
+    public String allUsers() {
         return "admin";
     }
 
@@ -124,11 +118,13 @@ public class UserController {
         Set<Role> currentRoles = currentUser.getRoles();
 // Вот этот кусок кода нормальный? отсюда
         final boolean[] isAdmin = {false};
-        currentRoles.forEach((e) -> {if(e.getName().equals("ADMIN")){
-            isAdmin[0] =!isAdmin[0];
-        }});
+        currentRoles.forEach((e) -> {
+            if (e.getName().equals("ADMIN")) {
+                isAdmin[0] = !isAdmin[0];
+            }
+        });
 //        до сюда,  мне он просто не нравится.
-        if(currentId.equals(id) || isAdmin[0]){
+        if (currentId.equals(id) || isAdmin[0]) {
             User user = userService.getById(id);
             model.addAttribute("user", user);
             try {
@@ -137,9 +133,9 @@ public class UserController {
             } catch (NullPointerException e) {
                 return "redirect:/admin";
             }
-            return "showUser";}
-        else{
-            return  "redirect:/user/view/"+currentId;
+            return "showUser";
+        } else {
+            return "redirect:/user/view/" + currentId;
         }
     }
 
