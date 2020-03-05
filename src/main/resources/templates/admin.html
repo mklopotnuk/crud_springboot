@@ -8,9 +8,8 @@
     <!--          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">-->
 
     <link rel="stylesheet" href="/css/bootstrap.css">
-
+    <!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">-->
     <!--    Как перенести подключение js в конец body?-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <style>
         body {
@@ -74,7 +73,7 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="allUsers" role="tabpanel">
                                 <h4>All Users</h4>
-                                <table class="table table-striped">
+                                <table class="table table-striped display" id="users">
                                     <thead class="thead-dark">
                                     <tr>
                                         <th>id</th>
@@ -86,15 +85,13 @@
                                     </thead>
                                     <tbody>
                                     <!--    td где проставляется роль юзера, подходит только для концепции когда у юзера одна роль, если у юзера будет несколько ролей - все ломается.-->
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <!--                                    text-white???-->
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                     </tbody>
 
                                 </table>
@@ -105,23 +102,23 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-10 col-xs-10">
-                                            <form action="#" th:action="@{/add}" method="post">
+                                            <form onsubmit="onSubmit(this); return false;">
                                                 <div class="form-group text-center edit-form">
                                                     <label for="username-input-add">Name</label>
-                                                    <input id="username-input-add" class="form-control"
+                                                    <input name="user" id="username-input-add" class="form-control"
                                                            placeholder="User name"
                                                            type="text" required/>
                                                     <label for="password-input-add">Password</label>
-                                                    <input id="password-input-add" class="form-control"
+                                                    <input name="password" id="password-input-add" class="form-control"
                                                            placeholder="Password"
-                                                           type="password"  required>
+                                                           type="password" required>
                                                     <label for="role-input-add">Role</label>
                                                     <select id="role-input-add" class="form-control" name="role">
                                                         <option value="1">USER</option>
                                                         <option value="2">ADMIN</option>
                                                     </select>
                                                     <button type="submit"
-                                                            class="btn btn-success add-user-button btn-lg">
+                                                            class="btn btn-success">
                                                         Add new user
                                                     </button>
                                                 </div>
@@ -137,7 +134,7 @@
                 <div class="tab-pane show " id="user-page" role="tabpanel">
                     <div class="col-10 col-sm-10 col-md-10 col-lg-10">
                         <h1>User panel</h1>
-                        Hello <span></span>
+                        Hello <span id="current-user"></span>
                     </div>
 
                 </div>
@@ -174,33 +171,34 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
-                        <form id="edit-form" action="#" th:action="@{/admin/edit}" method="post">
+                        <!--В этой форме имена полей совпадают с именами полей в форме добавления нового юзера, нормально ли это?-->
+                        <form onsubmit="onSubmit(); return false;">
                             <div class="form-group text-center edit-form">
                                 <label for="id-input-edit">ID</label>
-                                <input id="id-input-edit" class="form-control" disabled="disabled" type="text"
-                                        required>
-                                <input type="hidden" id="id-input-edit-hidden">
-
+                                <input id="id-input-edit" class="form-control" disabled="disabled" type="text">
+                                <input name="id" type="hidden" id="id-input-edit-hidden">
                                 <label for="username-input-edit">Name</label>
-                                <input id="username-input-edit" class="form-control"
+                                <input name="user" id="username-input-edit" class="form-control"
                                        placeholder="User name"
                                        type="text" required/>
                                 <label for="password-input-edit">Password</label>
-                                <input id="password-input-edit" class="form-control"
+                                <input name="password" id="password-input-edit" class="form-control"
                                        placeholder="Password"
-                                       type="password" required>
+                                       type="password">
                                 <label for="role-input-edit">Role</label>
                                 <select id="role-input-edit" class="form-control" name="role">
                                     <option value="1">USER</option>
                                     <option value="2">ADMIN</option>
                                 </select>
+                                <button type="submit"
+                                        class="btn btn-success">
+                                    Edit
+                                </button>
+                                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+
                             </div>
                         </form>
-                    </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="edit-submit" class="btn btn-primary">Edit User</button>
                     </div>
                 </div>
             </div>
@@ -210,30 +208,9 @@
     </div>
 </div>
 
-<script>
-    function putValues(id, name, password, barcode, windowtype) {
-        if (windowtype === "info") {
-            $("#id-info").text(id);
-            $("#username-info").text(name);
-            $("#password-info").text(password);
-            $("#barcode-info").attr("src", barcode);
-        }
-        if (windowtype === "edit") {
-            $('#id-input-edit').val(id);
-            $('#id-input-edit-hidden').val(id);
-            $('#username-input-edit').val(name);
-            $('#password-input-edit').val(password);
-        }
-    }
-
-    $(document).ready(function () {
-        $("#edit-submit").click(function () {
-            $("#edit-form").submit();
-        })
-    })
-
-</script>
-<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/users.js"></script>
 <!--<script src="/js/popper.min.js"></script>-->
 
 

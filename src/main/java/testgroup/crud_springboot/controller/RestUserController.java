@@ -41,7 +41,7 @@ public class RestUserController {
         return userService.getById(id);
     }
 
-    @PostMapping(path = "/customer")
+    @PostMapping(value = "/customer")
     public void addUser(@RequestBody User user) {
         Set<Role> roles=null;
 
