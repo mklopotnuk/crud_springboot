@@ -1,5 +1,7 @@
 package testgroup.crud_springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,10 +10,10 @@ import java.util.Collection;
 import java.util.Set;
 
 
-@Entity
-@Table(name = "users")
-public class User implements UserDetails {
-
+//@Entity
+//@Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User implements UserDetails  {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class User implements UserDetails {
     private String password;
 
     @Transient
-    transient private String confirmPassword;
+    private String confirmPassword;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "barcode_id")

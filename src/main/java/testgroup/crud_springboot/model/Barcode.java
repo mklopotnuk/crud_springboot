@@ -2,8 +2,8 @@ package testgroup.crud_springboot.model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="barcodes")
+//@Entity
+//@Table(name="barcodes")
 public class Barcode {
     @Id
     @Column(name = "id")
