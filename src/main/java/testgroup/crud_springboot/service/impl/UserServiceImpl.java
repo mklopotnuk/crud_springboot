@@ -1,78 +1,59 @@
 package testgroup.crud_springboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import testgroup.crud_springboot.security.config.BarcodeProperties;
 import testgroup.crud_springboot.dao.UserDAO;
-import testgroup.crud_springboot.model.Barcode;
 import testgroup.crud_springboot.model.User;
 import testgroup.crud_springboot.service.UserService;
 
 
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private BarcodeProperties BarcodeProperties;
+    private RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, BCryptPasswordEncoder bCryptPasswordEncoder, BarcodeProperties appProperties) {
+    public UserServiceImpl(UserDAO userDAO, RestTemplate restTemplate) {
         this.userDAO = userDAO;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.BarcodeProperties = appProperties;
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public List<User> allUsers() {
-        return userDAO.allUsers();
+        ResponseEntity<List<User>> responseEntity = restTemplate.exchange("http://127.0.0.1:8081/allusers", HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {});
+        return responseEntity.getBody();
     }
 
     @Override
-    public Long add(User user) {
-        Barcode barcode = new Barcode();
-        RestTemplate restTemplate = new RestTemplate();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Long userId = userDAO.add(user);
-        String formattedId = String.format("S%06d", userId);
-        String url = BarcodeProperties.getUrlBarcodeGenerator() + formattedId + "." + BarcodeProperties.getBarcodeFileFormat() + "?resolution=" + BarcodeProperties.getBarcodeResolution();
-        byte[] imageBytes = restTemplate.getForObject(url, byte[].class);
-        barcode.setBarcodeId(formattedId);
-        String string = Base64.getEncoder().encodeToString(imageBytes);
-        barcode.setBarcodeImage(string);
-        user.setBarcode(barcode);
-        return userId;
+    public void add(User user) {
+        restTemplate.postForObject("http://127.0.0.1:8081/customer", user, User.class);
     }
 
     @Override
     public void delete(User user) {
-        userDAO.delete(user.getId());
+        restTemplate.delete("http://127.0.0.1:8081/customer?id="+user.getId().toString());
     }
 
     @Override
     public void edit(User user) {
-        userDAO.edit(user);
+        restTemplate.put("http://127.0.0.1:8081/customer",user,User.class);
     }
 
     @Override
     public User getById(Long id) {
-        return userDAO.getById(id);
+        return restTemplate.getForObject ("http://127.0.0.1:8081/customer?id="+id.toString(), User.class);
     }
 
     @Override
     public User findByUserName(String name) {
         return userDAO.findByUserName(name);
-    }
-
-    @Override
-    public boolean isUserExist(String name) {
-        return userDAO.findByUserName(name) == null;
     }
 }

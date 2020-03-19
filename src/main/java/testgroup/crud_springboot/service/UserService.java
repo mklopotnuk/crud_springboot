@@ -8,7 +8,7 @@ public interface UserService {
 
     List<User> allUsers();
 
-    Long add(User user);
+    void add(User user);
 
     void delete(User user);
 
@@ -17,6 +17,4 @@ public interface UserService {
     User getById(Long id);
 
     User findByUserName(String name);
-
-    boolean isUserExist(String name);
 }
