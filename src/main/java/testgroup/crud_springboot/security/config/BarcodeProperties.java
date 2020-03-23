@@ -31,10 +31,4 @@ public class BarcodeProperties {
         return barcodeResolution;
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
 }
