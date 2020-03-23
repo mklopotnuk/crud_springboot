@@ -25,12 +25,10 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException, IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if(roles.contains("ADMIN")){
+        if(roles.contains("ROLE_ADMIN")){
             httpServletResponse.sendRedirect("/admin");
         }else{
-            String name = authentication.getName();
-            Long id = userDAO.findByUserName(name).getId();
-            httpServletResponse.sendRedirect("/user/view/"+id);
+            httpServletResponse.sendRedirect("/user");
         }
     }
 }

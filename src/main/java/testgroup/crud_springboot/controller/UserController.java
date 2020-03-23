@@ -49,6 +49,11 @@ public class UserController {
         return "admin";
     }
 
+    @GetMapping(value = "/user")
+    public String currentUser() {
+        return "user";
+    }
+
     @GetMapping(value = "/admin/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
         User user = userService.getById(id);
