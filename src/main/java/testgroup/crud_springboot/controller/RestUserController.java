@@ -2,6 +2,9 @@ package testgroup.crud_springboot.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import testgroup.crud_springboot.model.Role;
@@ -70,5 +73,11 @@ public class RestUserController {
         }
         userService.edit(user);
 
+    }
+
+    @GetMapping(path = "/currentuser")
+    public UserDetails getCurrentUser(){
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (UserDetails) authentication.getPrincipal();
     }
 }
