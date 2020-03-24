@@ -14,15 +14,12 @@ import testgroup.crud_springboot.service.UserService;
 import java.util.*;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
-    private UserDAO userDAO;
     private RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RestTemplate restTemplate) {
-        this.userDAO = userDAO;
+    public UserServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -50,10 +47,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return restTemplate.getForObject ("http://127.0.0.1:8081/customer?id="+id.toString(), User.class);
-    }
-
-    @Override
-    public User findByUserName(String name) {
-        return userDAO.findByUserName(name);
     }
 }

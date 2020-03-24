@@ -10,20 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import testgroup.crud_springboot.security.handlers.CustomAuthFailureHandler;
 import testgroup.crud_springboot.security.handlers.CustomAuthSuccessHandler;
-import testgroup.crud_springboot.service.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CustomAuthSuccessHandler customAuthSuccessHandler;
     private CustomAuthFailureHandler customAuthFailureHandler;
-    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(CustomAuthSuccessHandler customAuthSuccessHandler, CustomAuthFailureHandler customAuthFailureHandler, UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfiguration(CustomAuthSuccessHandler customAuthSuccessHandler, CustomAuthFailureHandler customAuthFailureHandler) {
         this.customAuthSuccessHandler = customAuthSuccessHandler;
         this.customAuthFailureHandler = customAuthFailureHandler;
-        this.userDetailsService = userDetailsService;
     }
 
     @Bean

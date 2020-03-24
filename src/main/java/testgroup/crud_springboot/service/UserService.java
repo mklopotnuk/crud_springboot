@@ -15,6 +15,4 @@ public interface UserService {
     void edit(User user);
 
     User getById(Long id);
-
-    User findByUserName(String name);
 }

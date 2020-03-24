@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import testgroup.crud_springboot.model.Role;
 import testgroup.crud_springboot.model.User;
-import testgroup.crud_springboot.service.BarcodeService;
 import testgroup.crud_springboot.service.RoleService;
 import testgroup.crud_springboot.service.UserService;
 
@@ -22,14 +21,12 @@ public class RestUserController {
 
 
     private UserService userService;
-    private BarcodeService barcodeService;
     private RoleService roleService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public RestUserController(UserService userService, BarcodeService barcodeService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public RestUserController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
-        this.barcodeService = barcodeService;
         this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
