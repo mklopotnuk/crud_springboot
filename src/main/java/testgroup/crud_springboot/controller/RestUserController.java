@@ -9,10 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import testgroup.crud_springboot.model.Role;
 import testgroup.crud_springboot.model.User;
-import testgroup.crud_springboot.service.RoleService;
 import testgroup.crud_springboot.service.UserService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -21,13 +19,11 @@ public class RestUserController {
 
 
     private UserService userService;
-    private RoleService roleService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public RestUserController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public RestUserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
-        this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -44,12 +40,7 @@ public class RestUserController {
     @PostMapping(value = "/customer")
     public void addUser(@RequestBody User user) {
         Set<Role> roles=null;
-
-        if (user.getRoles() == null) {
-            roles = Collections.singleton(roleService.getRoleById(1L));
-        } else{
-            roles = user.getRoles();
-        }
+        roles = user.getRoles();
         user.setRoles(roles);
         userService.add(user);
     }
