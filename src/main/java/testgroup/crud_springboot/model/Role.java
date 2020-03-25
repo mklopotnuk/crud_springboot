@@ -1,19 +1,7 @@
 package testgroup.crud_springboot.model;
 
-
-import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.*;
-
-
-//@Entity
-//@Table(name = "roles")
-public class Role implements GrantedAuthority {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Role{
     private Long id;
-
-    @Column
     private String name;
 
     public Long getId() {
@@ -38,10 +26,5 @@ public class Role implements GrantedAuthority {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public String getAuthority() {
-        return name;
     }
 }

@@ -1,40 +1,17 @@
 package testgroup.crud_springboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 
-//@Entity
-//@Table(name = "users")
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User implements UserDetails  {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class User {
     private Long id;
-
-    @Column(unique = true)
     private String name;
-
-    @Column
     private String password;
-
-    @Transient
     private String confirmPassword;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "barcode_id")
     private Barcode barcode;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public Barcode getBarcode() {
@@ -83,36 +60,6 @@ public class User implements UserDetails  {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getUsername() {
-        return name;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     @Override
